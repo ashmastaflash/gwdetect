@@ -2,7 +2,7 @@
 import pcapy
 import socket
 from struct import *
-from gwdfunctions import eth_addr , createNode
+from gwdfunctions import eth_addr , createNode , disposition
 import gwdglobals
 
 def parse_pcap(infile):
@@ -15,7 +15,6 @@ def parse_pcap(infile):
             break
 
 def parse_payload(payload):
-    #Slice up the header
     eth_length = 14
     eth_header = payload[:eth_length]
     eth = unpack('!6s6sH', eth_header)
@@ -38,28 +37,7 @@ def parse_payload(payload):
         protocol = iph[6]
         ip_src = socket.inet_ntoa(iph[8])
         ip_dest = socket.inet_ntoa(iph[9])
-        #print 'Source: ' + mac_src + ' ' + str(ip_src) + ' Destination: ' + mac_dest + ' ' + str(ip_dest)
-        if mac_src not in gwdglobals.src_maclist:
-            smac_unique = 1
-            gwdglobals.src_maclist.append(mac_src)
-        if mac_dest not in gwdglobals.dst_maclist:
-            dmac_unique = 1
-            gwdglobals.dst_maclist.append(mac_dest)
-        if ip_src not in gwdglobals.src_iplist:
-            sip_unique = 1
-            gwdglobals.src_iplist.append(ip_src)
-        if ip_dest not in gwdglobals.dst_iplist:
-            dip_unique = 1
-            gwdglobals.dst_iplist.append(ip_dest)
-            if mac_src + '-' + ip_src + '-' + mac_dest + '-' + ip_dest not in gwdglobals.srcdest_sets:
-                gwdglobals.srcdest_sets.append(mac_src + '-' + ip_src + '-' + mac_dest + '-' + ip_dest)
-            if mac_src not in gwdglobals.master_mac_list:
-                gwdglobals.master_mac_list.append(mac_src)
-            if mac_dest not in gwdglobals.master_mac_list:
-                gwdglobals.master_mac_list.append(mac_dest)
-            if ip_src not in gwdglobals.master_ip_list:
-                createNode(ip_src, mac_src)
-            if ip_dest not in gwdglobals.master_ip_list:
-                createNode(ip_dest, mac_dest)
+# Send it along to its destiny
+        disposition(ip_src,ip_dest,mac_src,mac_dest)
 
 

@@ -2,6 +2,8 @@
 '''
 Globals go in this file
 '''
+import messages
+
 def globinit():
     usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -x <xmloutfile> -s <subnet in 0.0.0.0/0 notation>'
     global interface
@@ -17,6 +19,12 @@ def globinit():
     global master_ip_list
     global master_mac_list
     global sourcetype
+    global routes
+    global connected_nodes
+    global remote_nodes
+    global routers
+    global debuglevel
+    global messages
     interface = ''
     infile = ''
     outlog = ''
@@ -29,4 +37,9 @@ def globinit():
     srcdest_sets = []
     master_ip_list = []
     master_mac_list = []
-
+    routes = []
+    connected_nodes = []
+    remote_nodes = []
+    routers = []
+    debuglevel = 2
+    messages = messages.messagelist

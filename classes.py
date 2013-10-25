@@ -10,30 +10,27 @@ class NetworkNode:
 
 class Connected(NetworkNode):
     def __init__(self, ip_addr, mac_addr):
-        mac = mac_addr
-        ip = ip_addr
-        print 'Created ConnectedNode with IP ' , ip_addr , ' and MAC ' , mac_addr
+        self.mac = mac_addr
+        self.ip = ip_addr
 
 class Router(NetworkNode):
     mac_addr = ''
     def __init__(self, ip_addr, mac_addr):
-        mac = mac_addr
-        ip = ip_addr
-        print 'Created Rotuer with IP ' , ip_addr , ' and MAC ' , mac_addr
+        self.mac = mac_addr
+        self.ip = ip_addr
 
 class Remote(NetworkNode):
     def __init__(self, ip_addr):
-        ip = ip_addr
-        print 'Created Remote node with IP ' , ip_addr
+        self.ip = ip_addr
 
 class Enterprise(NetworkNode):
     def __init__(self, ip_addr):
-        ip = ip_addr
-        print 'Created Enterprise node with IP ' , ip_addr
+        self.ip = ip_addr
+        print '---Created Enterprise node with IP ' , ip_addr
 
 class Path:
     def __init__(self, Connected, Remote, Router, route_direction):
-        local = Connected
-        remote = Remote
-        router = Router
-        direction = route_direction
+        self.local = Connected
+        self.remote = Remote
+        self.router = Router
+        self.direction = route_direction

@@ -17,10 +17,11 @@ from netaddr import IPNetwork, IPAddress
 from  messages import *
 from classes import *
 from parse import parse_pcap , parse_payload
-from gwdfunctions import printoutput , validateinput
+from gwdfunctions import printoutput , validateinput , firemessage
 
 def main(argv):
     gwdglobals.globinit()
+    messagebody = ''
     try:
         opts, args = getopt.getopt(argv, "hi:f:l:x:s:",["interface=","infile=","outlog=","outxml=","subnet="])
     except getopt.GetoptError:
@@ -45,7 +46,8 @@ def main(argv):
     print 'Interface: ', gwdglobals.interface
     print 'XML output file: ', gwdglobals.outxml
     if validateinput() == True:
-        print 'input verified, source type is ', gwdglobals.sourcetype
+        messagebody = 'Source type is: ' + gwdglobals.sourcetype
+        firemessage('1000',messagebody)
         if gwdglobals.sourcetype == 'file':
             parse_pcap(gwdglobals.infile)
             printoutput()
