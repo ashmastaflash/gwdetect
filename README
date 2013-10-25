@@ -10,4 +10,23 @@ To Do:
 9) Daemonize
 10) Support SIGx to force XML dump
 11) Support SIGy to force debug level change
-12) ARP support
+12) ARP support in live capture mode
+13) VLAN support
+14) Track routes to nodes within enterprise, but outside of 
+    protected subnet, separately from 'outside' nodes.  This
+    will help with garbage collection, and having minimal
+    performance impact after such an event.
+
+gwdetect.py
+
+This tool is designed to observe network behavior
+and generate log events for anomalies.
+
+Currently, only pcap processing is supported, with live network monitoring coming soon
+
+
+This is what it does now:
+From a pcap file
+    Creates a list of observed gateways, hosts, 1:1 routes
+
+This product includes software developed by CORE Security Technologies (http://www.coresecurity.com/)."
