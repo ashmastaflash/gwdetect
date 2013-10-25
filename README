@@ -1,0 +1,13 @@
+To Do:
+1) Move the route tracking to using real objects instead of a matrix
+2) Change to file-based configuration
+3) Support live capture
+4) Periodic snapshots, garbage collection for external hosts and routes on the same interval
+5) Support whitelisting of gateway MAC addresses, separate event ID for rogue gateway.
+6) Support syslog as well as pre-defined log file
+7) Timestamps in log messages
+8) Define licensing, ensure credit is given where it is due.
+9) Daemonize
+10) Support SIGx to force XML dump
+11) Support SIGy to force debug level change
+12) ARP support
