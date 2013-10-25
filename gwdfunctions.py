@@ -243,7 +243,12 @@ def check_route_exists(inner,outer,rtr,direction):
 def validateinput():
     global sourcetype
     sourcetype = ''
-    devices = pcapy.findalldevs()
+    devices = ''
+    try:
+        devices = pcapy.findalldevs()
+    except:
+        print 'Unable to find any interfaces.  Try with sudo.'
+        return False
     if gwdglobals.interface in devices:
         gwdglobals.sourcetype = 'interface'
         print 'Interface verified: ', gwdglobals.interface

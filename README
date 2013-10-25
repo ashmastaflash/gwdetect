@@ -18,6 +18,7 @@ To Do:
     performance impact after such an event.
 
 gwdetect.py
+MUST RUN IN SUDO
 
 This tool is designed to observe network behavior
 and generate log events for anomalies.

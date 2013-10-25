@@ -5,7 +5,7 @@ Globals go in this file
 import messages
 
 def globinit():
-    usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -x <xmloutfile> -s <subnet in 0.0.0.0/0 notation>'
+    global usage_text
     global interface
     global infile
     global outlog
@@ -25,6 +25,7 @@ def globinit():
     global routers
     global debuglevel
     global messages
+    usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -x <xmloutfile> -s <subnet in 0.0.0.0/0 notation>'
     interface = ''
     infile = ''
     outlog = ''

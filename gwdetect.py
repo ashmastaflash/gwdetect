@@ -55,7 +55,7 @@ def main(argv):
             print 'Interface capture is currently unsupported.'
             sys.exit()
     else:
-        print usage_text
+        print gwdglobals.usage_text
         sys.exit(2)
 
 if __name__ == "__main__":
