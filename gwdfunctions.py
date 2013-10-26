@@ -7,7 +7,10 @@ import gwdglobals
 import pcapy
 import os.path
 from netaddr import IPNetwork, IPAddress
-from classes import *
+from connected import Connected
+from remote import Remote
+from router import Router
+
 
 def eth_addr(a):
     b = '%.2x:%.2x:%.2x:%.2x:%.2x:%.2x' % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))

@@ -15,7 +15,6 @@ import os.path
 import gwdglobals
 from netaddr import IPNetwork, IPAddress
 from  messages import *
-from classes import *
 from parse import parse_pcap , parse_payload
 from gwdfunctions import printoutput , validateinput , firemessage
 
