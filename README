@@ -16,9 +16,12 @@ To Do:
     protected subnet, separately from 'outside' nodes.  This
     will help with garbage collection, and having minimal
     performance impact after such an event.
+15) Sanity check for subnet input
 
 gwdetect.py
 MUST RUN IN SUDO
+Tested against Python 2.7.2
+2.6.6 can throw errors.
 
 This tool is designed to observe network behavior
 and generate log events for anomalies.
