@@ -16,7 +16,8 @@ import gwdglobals
 from netaddr import IPNetwork, IPAddress
 from  messages import *
 from parse import parse_pcap , parse_payload
-from gwdfunctions import printoutput , validateinput , firemessage
+from gwdfunctions import printoutput , firemessage
+from validate import validateinput
 
 def main(argv):
     gwdglobals.globinit()

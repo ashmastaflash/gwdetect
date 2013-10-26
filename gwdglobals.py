@@ -25,6 +25,7 @@ def globinit():
     global routers
     global debuglevel
     global messages
+    global sourcetype
     usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -x <xmloutfile> -s <subnet in 0.0.0.0/0 notation>'
     interface = ''
     infile = ''
@@ -44,3 +45,4 @@ def globinit():
     routers = []
     debuglevel = 2
     messages = messages.messagelist
+    sourcetype = ''

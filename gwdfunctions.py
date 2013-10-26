@@ -5,7 +5,7 @@ we hide our functions.
 '''
 import gwdglobals
 import pcapy
-import os.path
+#import os.path
 from netaddr import IPNetwork, IPAddress
 from connected import Connected
 from remote import Remote
@@ -242,49 +242,6 @@ def check_route_exists(inner,outer,rtr,direction):
         return True
     else:
         return False
-
-def validateinput():
-    global sourcetype
-    sourcetype = ''
-    devices = ''
-    try:
-        devices = pcapy.findalldevs()
-    except:
-        print 'Unable to find any interfaces.  Try with sudo.'
-        return False
-    if gwdglobals.interface in devices:
-        gwdglobals.sourcetype = 'interface'
-        print 'Interface verified: ', gwdglobals.interface
-    elif gwdglobals.interface == '':
-        print 'No interface selected, moving on...'
-    else:
-        print 'Configured interface does not exist'
-        print 'Available devices: ', devices
-        return 2
-    if gwdglobals.infile == '':
-        print 'No input file defined, moving on...'
-    elif os.path.isfile(gwdglobals.infile):
-        gwdglobals.sourcetype = 'file'
-        print 'Input file exists, moving on...'
-    else:
-        print 'Input file does not exist!'
-        return 2
-    if gwdglobals.interface == '' and gwdglobals.infile == '':
-        print 'Must define input, either interface or file!'
-    elif gwdglobals.interface != '' and gwdglobals.infile != '':
-        print 'Cannot process two input sources!'
-        return 2
-    elif gwdglobals.outlog == '':
-        print 'No output file defined!'
-        return 2
-    elif gwdglobals.outxml == '':
-        print 'No output XML file defined!'
-        return 2
-    elif gwdglobals.subnet == '':
-        print 'No subnet defined!'
-        return 2
-    else:
-        return True
 
 def firemessage(code , message):
     messages = gwdglobals.messages
