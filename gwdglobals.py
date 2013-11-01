@@ -9,7 +9,7 @@ def globinit():
     global interface
     global infile
     global outlog
-    global outxml
+    global outfile
     global subnet
     global src_maclist
     global dst_maclist
@@ -26,11 +26,14 @@ def globinit():
     global debuglevel
     global messages
     global sourcetype
-    usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -x <xmloutfile> -s <subnet in 0.0.0.0/0 notation>'
+    global configfile
+    global gateway_whitelist
+    global circos_report
+    usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -o <outfile> -x <circos|xml> -s <subnet in 0.0.0.0/0 notation>'
     interface = ''
     infile = ''
     outlog = ''
-    outxml = ''
+    outfile = ''
     subnet = ''
     src_maclist = []
     dst_maclist = []
@@ -46,3 +49,6 @@ def globinit():
     debuglevel = 2
     messages = messages.messagelist
     sourcetype = ''
+    configfile = ''
+    gateway_whitelist = []
+    circos_report = ''

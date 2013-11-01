@@ -5,6 +5,7 @@ we hide our functions.
 '''
 import gwdglobals
 import pcapy
+import ConfigParser
 #import os.path
 from netaddr import IPNetwork, IPAddress
 from connected import Connected
@@ -34,8 +35,27 @@ def ipInSubnet(ipaddr, subnet):
         return False
 
 def printoutput():
+    outfile = gwdglobals.outlog
     insidehost = ''
     gateway = ''
+    if not outfile == '':
+        f = open(outfile,'a')
+        f.write('Routes: inside, outside, gateway, observed direction:\n')
+        for h in gwdglobals.routes:
+            f.write(str(h))
+        f.write('Connected Nodes:\n')
+        for i in gwdglobals.connected_nodes:
+            f.write(i.mac + ' ' + i.ip + '\n')
+        f.write('Remote Nodes:\n')
+        for j in gwdglobals.connected_nodes:
+            f.write(j.ip + '\n')
+        f.write('Routers:\n')
+        for k in gwdglobals.routers:
+            f.write(k.mac + '\n')
+            if any(m.mac == k.mac for m in gwdglobals.connected_nodes):
+                routerIP = [connNode for connNode in gwdglobals.connected_nodes if connNode.mac == k.mac]
+                f.write(k.mac + ' ' + routerIP[0].ip)
+        return()
     print 'Routes: inside, outside, gateway, observed direction'
     for i in gwdglobals.routes:
         print i
@@ -51,6 +71,66 @@ def printoutput():
         if any(m.mac == l.mac for m in gwdglobals.connected_nodes):
             routerIP = [connNode for connNode in gwdglobals.connected_nodes if connNode.mac == l.mac]
             print l.mac , ' ' , routerIP[0].ip
+
+def write_circos():
+    outfile = gwdglobals.circos_report
+    outmatrix = []
+    router_labels = []
+    host_labels = []
+# Create the gateway labels
+    for l in gwdglobals.routers:
+        if any(m.mac == l.mac for m in gwdglobals.connected_nodes):
+            routerIP = [connNode for connNode in gwdglobals.connected_nodes if connNode.mac == l.mac]
+            router_labels.append(routerIP[0].ip)
+
+# Now, node labels
+    for o in gwdglobals.connected_nodes:
+        if any(x[0] == o.mac for x in gwdglobals.routes):
+            host_labels.append(o.ip)
+
+# Build tabular data structure:
+# Write header
+    f = open(outfile,'w+')
+    f.truncate()
+    f = open(outfile,'a')
+    topline = 'data'
+    headercolors = 'data'
+    for i in router_labels:
+        if i in gwdglobals.gateway_whitelist :
+            headercolors = headercolors + ' 100,100,100'
+        else:
+            headercolors = headercolors + ' 200,100,100'
+        topline = topline + ' GW_' + str(i)
+    topline = topline.replace('.','_').replace(':','_')
+    f.write('#Please visit http://mkweb.bcgsc.ca/tableviewer/visualize to generate this graphic the easy way.\n')
+    f.write('#Here is a hint: Row with Column Colors...\n')
+    f.write(headercolors + '\n')
+    f.write(topline + '\n')
+    for y in gwdglobals.connected_nodes:
+        line = y.ip
+        for i in gwdglobals.routers:
+            line = line + ' ' + count_routers(y.mac,i.mac)
+        line = 'IP_' + line.replace('.','_').replace(':','_').replace(' 0',' -')
+        f.write(line + '\n')
+    f.close()
+
+
+def count_routers(host_mac,rtr_mac):
+    count = 0
+    for i in gwdglobals.routes:
+        if i[3] == 'confirmed' and i[0] == host_mac and i[2] == rtr_mac:
+            count += 1
+    return(str(count))
+
+
+# Testing output...
+    print 'Router Labels:'
+    for p in router_labels:
+        print p
+    print 'Host Labels:'
+    for q in host_labels:
+        print q
+
 
 def disposition(sip,dip,smac,dmac):
     mac_src = smac
@@ -247,7 +327,23 @@ def firemessage(code , message):
     messages = gwdglobals.messages
     level = gwdglobals.debuglevel
     leveltext = ''
-    if any(i[0] == code for i in messages):
+    if not gwdglobals.outlog == '':
+        outlog = gwdglobals.outlog
+        f=open(outlog,'a')
+        if any(i[0] == code for i in messages):
+            messagematch = [messages for messages in messages if messages[0] == code]
+            if messagematch[0][1] <= level:
+                if messagematch[0][1] == 1:
+                    leveltext = 'ERROR'
+                elif messagematch[0][1] == 2:
+                    leveltext = 'INFO'
+                elif messagematch[0][1] == 3:
+                    leveltext = 'DEBUG'
+                else:
+                    f.write('Undefined Message Alert Level!!\n')
+                f.write(leveltext + ':' + code + ' ' + messagematch[0][2] + message + '\n')
+                return()
+    elif any(i[0] == code for i in messages):
         messagematch = [messages for messages in messages if messages[0] == code]
         if messagematch[0][1] <= level :
             if messagematch[0][1] == 1:
@@ -259,7 +355,16 @@ def firemessage(code , message):
             else:
                 print 'Undefined message alert level!!'
             print leveltext + ':' + code , ' ' + messagematch[0][2] ,  message
+            return()
 
+def parse_config_file():
+    config = ConfigParser.RawConfigParser(allow_no_value=True)
+    config.read(gwdglobals.configfile)
+    gwdglobals.infile = config.get("Input","filename")
+    gwdglobals.interface = config.get("Input","interface")
+    gwdglobals.gateway_whitelist = config.get("Filter","whitelist_gateways")
+    gwdglobals.subnet = config.get("Filter","protected_subnet")
+    gwdglobals.circos_report = config.get("Output","circos_report")
 
 
 

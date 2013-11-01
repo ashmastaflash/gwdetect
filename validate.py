@@ -18,7 +18,7 @@ def validateinput():
     elif gwdglobals.outlog == '':
         print 'No output file defined!'
         return 2
-    elif gwdglobals.outxml == '':
+    elif gwdglobals.outfile == '':
         print 'No output XML file defined!'
         return 2
     elif gwdglobals.subnet == '':
@@ -37,6 +37,13 @@ def validate_file():
     else:
         print 'Input file ' , gwdglobals.infile , ' does not exist!'
         return 2
+
+def validate_outfile():
+    return True
+
+def validate_outformat():
+    if gwdglobals.outformat == 'circos':
+        return True
 
 def validate_device():
     if gwdglobals.interface == '':
