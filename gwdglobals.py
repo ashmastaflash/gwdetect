@@ -29,7 +29,8 @@ def globinit():
     global configfile
     global gateway_whitelist
     global circos_report
-    usage_text = 'gwdetect.py -i <interface> -f <inputfile> -l <logfile> -o <outfile> -x <circos|xml> -s <subnet in 0.0.0.0/0 notation>'
+    global timedebug
+    usage_text = 'gwdetect.py -c <configfile> -i <interface> -f <inputfile> -l <logfile> -C <CircosOutput> -r <reportfile> -s <subnet in 0.0.0.0/0 notation>'
     interface = ''
     infile = ''
     outlog = ''
@@ -52,3 +53,4 @@ def globinit():
     configfile = ''
     gateway_whitelist = []
     circos_report = ''
+    timedebug = ''

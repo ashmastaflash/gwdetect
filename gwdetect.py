@@ -20,14 +20,15 @@ from  messages import *
 from parse import parse_pcap , parse_payload
 from gwdfunctions import printoutput , firemessage , write_circos , parse_config_file
 from validate import validateinput
+from gwdbackbone import backbone
 
 def main(argv):
     gwdglobals.globinit()
     messagebody = ''
     try:
-        opts, args = getopt.getopt(argv, "hi:f:l:o:r:s:c:",["interface=","infile=","outlog=","reportfile=","subnet=","configfile="])
+        opts, args = getopt.getopt(argv, "hi:f:l:C:s:c:",["interface=","infile=","outlog=","circosfile=","subnet=","configfile="])
     except getopt.GetoptError:
-        print usage_text
+        print gwdglobals.usage_text
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
@@ -42,27 +43,18 @@ def main(argv):
             gwdglobals.infile = arg
         elif opt in ("-l", "--outlog"):
             gwdglobals.outlog = arg
-        elif opt in ("-r", "--reportfile"):
-            gwdglobals.outfile = arg
+        elif opt in ("-C", "--circosfile"):
+            gwdglobals.circos_report = arg
         elif opt in ("-s", "--subnet"):
             gwdglobals.subnet = arg
     print 'Input file: ', gwdglobals.infile
     print 'Output log file: ', gwdglobals.outlog
     print 'Interface: ', gwdglobals.interface
-    print 'Output report file: ', gwdglobals.outfile
+    print 'Circos output file: ', gwdglobals.circos_report
     if validateinput() == True:
         messagebody = 'Source type is: ' + gwdglobals.sourcetype
         firemessage('1000',messagebody)
-        if gwdglobals.sourcetype == 'file':
-            print 'Parsing input file, please wait.  Time is now: ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-            parse_pcap(gwdglobals.infile)
-            printoutput()
-            if not gwdglobals.circos_report == '':
-                write_circos()
-            print 'Finished.  Time is now: ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-        else:
-            print 'Interface capture is currently unsupported.'
-            sys.exit()
+        backbone()
     else:
         print gwdglobals.usage_text
         sys.exit(2)

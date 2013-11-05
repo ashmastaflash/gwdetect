@@ -4,6 +4,21 @@ import socket
 from struct import *
 from gwdfunctions import eth_addr , createNode , disposition
 import gwdglobals
+import timeit
+
+
+def time_parse_pcap(infile):
+    reader = pcapy.open_offline(infile)
+    while True:
+        t = timeit.Timer()
+        try:
+            (header, payload) = reader.next()
+            try:
+                t.timeit(parse_payload(payload))
+            except:
+                pass
+        except pcapyPcapError:
+            break
 
 def parse_pcap(infile):
     reader = pcapy.open_offline(infile)
@@ -39,5 +54,3 @@ def parse_payload(payload):
         ip_dest = socket.inet_ntoa(iph[9])
 # Send it along to its destiny
         disposition(ip_src,ip_dest,mac_src,mac_dest)
-
-

@@ -42,7 +42,8 @@ def printoutput():
         f = open(outfile,'a')
         f.write('Routes: inside, outside, gateway, observed direction:\n')
         for h in gwdglobals.routes:
-            f.write(str(h))
+            route_entry = h[0] + '\t' + h[1] + '\t' + h[2] + '\t' + h[3] +'\n'
+            f.write(str(route_entry))
         f.write('Connected Nodes:\n')
         for i in gwdglobals.connected_nodes:
             f.write(i.mac + ' ' + i.ip + '\n')
@@ -99,7 +100,7 @@ def write_circos():
         if i in gwdglobals.gateway_whitelist :
             headercolors = headercolors + ' 100,100,100'
         else:
-            headercolors = headercolors + ' 200,100,100'
+            headercolors = headercolors + ' 200,0,0'
         topline = topline + ' GW_' + str(i)
     topline = topline.replace('.','_').replace(':','_')
     f.write('#Please visit http://mkweb.bcgsc.ca/tableviewer/visualize to generate this graphic the easy way.\n')
@@ -365,6 +366,7 @@ def parse_config_file():
     gwdglobals.gateway_whitelist = config.get("Filter","whitelist_gateways")
     gwdglobals.subnet = config.get("Filter","protected_subnet")
     gwdglobals.circos_report = config.get("Output","circos_report")
+    gwdglobals.timedebug = config.get("Output","time_debug")
 
 
 

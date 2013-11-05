@@ -18,9 +18,10 @@ def validateinput():
     elif gwdglobals.outlog == '':
         print 'No output file defined!'
         return 2
-    elif gwdglobals.outfile == '':
-        print 'No output XML file defined!'
-        return 2
+# Not using this yet...
+#    elif gwdglobals.outfile == '':
+#        print 'No output XML file defined!'
+#        return 2
     elif gwdglobals.subnet == '':
         print 'No subnet defined!'
         return 2
@@ -42,6 +43,7 @@ def validate_outfile():
     return True
 
 def validate_outformat():
+# This will get more interesting as we support more output formats.
     if gwdglobals.outformat == 'circos':
         return True
 
