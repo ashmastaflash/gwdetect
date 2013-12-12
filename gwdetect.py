@@ -17,7 +17,7 @@ import gwdglobals
 import ConfigParser
 from netaddr import IPNetwork, IPAddress
 from  messages import *
-from parse import parse_pcap , parse_payload
+#from parse import parse_pcap , parse_payload
 from gwdfunctions import printoutput , firemessage , write_circos , parse_config_file
 from validate import validateinput
 from gwdbackbone import backbone

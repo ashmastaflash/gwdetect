@@ -7,7 +7,7 @@
 import gwdglobals
 import datetime
 import time
-from parse import time_parse_pcap , parse_pcap , parse_payload
+from parse import time_parse_pcap , parse_pcap , parse_frame
 from gwdfunctions import printoutput , firemessage , write_circos , parse_config_file
 
 def backbone():

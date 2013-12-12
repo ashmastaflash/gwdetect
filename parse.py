@@ -25,11 +25,11 @@ def parse_pcap(infile):
     while True:
         try:
             (header, payload) = reader.next()
-            parse_payload(payload)
+            parse_frame(payload)
         except pcapy.PcapError:
             break
 
-def parse_payload(payload):
+def parse_frame(payload):
     eth_length = 14
     eth_header = payload[:eth_length]
     eth = unpack('!6s6sH', eth_header)
@@ -54,3 +54,19 @@ def parse_payload(payload):
         ip_dest = socket.inet_ntoa(iph[9])
 # Send it along to its destiny
         disposition(ip_src,ip_dest,mac_src,mac_dest)
+
+#This next bit is a work in progress.
+#We're going to move to PDU-specific parsing,
+#Instead of a monolithic parser for all payload types
+
+def parse_ethernet(frame):
+    proto = socket.ntohs(unpack('H' , frame[12:14])[0])
+    mac_src = eth_addr(payload[6:12])
+    mac_dst = eth_addr(payload[0:6])
+    if proto == 8100:
+        vlan_tag = frame[68:80]
+#        l3_pdu =
+
+#    elif proto == 800:
+
+
