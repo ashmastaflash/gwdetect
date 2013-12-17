@@ -1,4 +1,7 @@
 #!/usr/bin/python
+# Thanks to http://www.binarytides.com/python-packet-sniffer-code-linux/
+# for the inspiration behind some of this code...
+
 import pcapy
 import socket
 from struct import *
